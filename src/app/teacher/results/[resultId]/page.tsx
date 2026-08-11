@@ -266,6 +266,13 @@ function getOptionText(question: QuestionDetail, option: AnswerKey) {
   return question[option] || "";
 }
 
+function getOptionImageUrl(question: QuestionDetail, option: AnswerKey) {
+  if (option === "A") return question.AImageUrl || "";
+  if (option === "B") return question.BImageUrl || "";
+  if (option === "C") return question.CImageUrl || "";
+  return question.DImageUrl || "";
+}
+
 function cleanQuestionText(value?: string) {
   return String(value || "")
     .split("\n")
@@ -1289,6 +1296,7 @@ export default function ResultDetailPage() {
                     <div style={optionsGrid}>
                       {(["A", "B", "C", "D"] as const).map((option) => {
                         const optionText = getOptionText(question, option);
+                        const optionImageUrl = getOptionImageUrl(question, option);
                         const studentValue = readBooleanAnswer(
                           question.studentAnswerRaw,
                           option
@@ -1331,6 +1339,14 @@ export default function ResultDetailPage() {
                             </div>
 
                             <MathContent text={optionText || "--"} />
+
+                            {optionImageUrl && (
+                              <img
+                                src={optionImageUrl}
+                                alt={`Mệnh đề ${option}`}
+                                style={optionImage}
+                              />
+                            )}
                           </div>
                         );
                       })}
@@ -1349,39 +1365,48 @@ export default function ResultDetailPage() {
                   ) : (
                     <div style={optionsGrid}>
                       {(["A", "B", "C", "D"] as const).map((option) => {
-                      const optionText = getOptionText(question, option);
-                      const isCorrect = normalizeAnswer(question.correct) === option;
-                      const isStudentAnswer =
-                        normalizeAnswer(question.studentAnswer) === option;
+                        const optionText = getOptionText(question, option);
+                        const optionImageUrl = getOptionImageUrl(question, option);
+                        const isCorrect = normalizeAnswer(question.correct) === option;
+                        const isStudentAnswer =
+                          normalizeAnswer(question.studentAnswer) === option;
 
-                      return (
-                        <div
-                          key={option}
-                          style={getOptionStyle(question, option)}
-                        >
-                          <div style={optionHeader}>
-                            <b>{option}.</b>
+                        return (
+                          <div
+                            key={option}
+                            style={getOptionStyle(question, option)}
+                          >
+                            <div style={optionHeader}>
+                              <b>{option}.</b>
 
-                            {isCorrect && (
-                              <span style={correctTag}>Đáp án đúng</span>
-                            )}
+                              {isCorrect && (
+                                <span style={correctTag}>Đáp án đúng</span>
+                              )}
 
-                            {isStudentAnswer && (
-                              <span
-                                style={{
-                                  ...studentTag,
-                                  background: isCorrect ? "#bbf7d0" : "#fecaca",
-                                  color: isCorrect ? "#166534" : "#991b1b",
-                                }}
-                              >
-                                HS chọn
-                              </span>
+                              {isStudentAnswer && (
+                                <span
+                                  style={{
+                                    ...studentTag,
+                                    background: isCorrect ? "#bbf7d0" : "#fecaca",
+                                    color: isCorrect ? "#166534" : "#991b1b",
+                                  }}
+                                >
+                                  HS chọn
+                                </span>
+                              )}
+                            </div>
+
+                            <MathContent text={optionText || "--"} />
+
+                            {optionImageUrl && (
+                              <img
+                                src={optionImageUrl}
+                                alt={`Đáp án ${option}`}
+                                style={optionImage}
+                              />
                             )}
                           </div>
-
-                          <MathContent text={optionText || "--"} />
-                        </div>
-                      );
+                        );
                       })}
                     </div>
                   )}
@@ -1752,6 +1777,17 @@ const questionImage: CSSProperties = {
   border: "1px solid #e5e7eb",
   background: "white",
   marginBottom: 12,
+};
+
+const optionImage: CSSProperties = {
+  display: "block",
+  maxWidth: "100%",
+  maxHeight: 220,
+  objectFit: "contain",
+  borderRadius: 12,
+  border: "1px solid #e5e7eb",
+  background: "white",
+  marginTop: 8,
 };
 
 const optionsGrid: CSSProperties = {

@@ -997,6 +997,15 @@ const notStartedCount =
 
               <div style={answerContent}>
                 <MathContent text={option.content} />
+
+                {option.imageUrl && (
+                  <ExamImage
+                    src={option.imageUrl}
+                    alt={`Hình đáp án ${option.displayKey}`}
+                    variant="answer"
+                    caption={`Hình đáp án ${option.displayKey}`}
+                  />
+                )}
               </div>
             </button>
           );
@@ -1026,6 +1035,15 @@ const notStartedCount =
 
                 <div style={answerContent}>
                   <MathContent text={statement.content} />
+
+                  {statement.imageUrl && (
+                    <ExamImage
+                      src={statement.imageUrl}
+                      alt={`Hình mệnh đề ${statement.id}`}
+                      variant="statement"
+                      caption={`Hình mệnh đề ${statement.id}`}
+                    />
+                  )}
                 </div>
               </div>
 

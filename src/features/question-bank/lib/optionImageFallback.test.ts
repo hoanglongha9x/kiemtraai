@@ -53,16 +53,14 @@ const question:
 };
 
 describe("option image fallback", () => {
-  it("rejects an image-only option", () => {
+  it("accepts an image-only option", () => {
     expect(
       validateQuestionInput(
         question
       )
     ).toEqual({
-      valid: false,
-      errors: [
-        "Phương án phải có nội dung; ảnh chỉ được gắn vào phần câu hỏi.",
-      ],
+      valid: true,
+      errors: [],
     });
   });
 });

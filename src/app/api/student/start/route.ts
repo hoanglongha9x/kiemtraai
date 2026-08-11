@@ -549,12 +549,26 @@ function normalizeOptionFromRecord(
         option.optionContent ??
         option.data
     );
+  const imageUrl =
+    buildQuestionImageUrl(
+      option.imageId ??
+        option.optionImageId,
+      option.imageUrl ??
+        option.optionImageUrl ??
+        option.image
+    );
 
   return {
     id:
       normalizedId,
 
     content,
+
+    ...(imageUrl
+      ? {
+          imageUrl,
+        }
+      : {}),
   };
 }
 
@@ -600,6 +614,22 @@ function normalizeSingleChoiceOptions(
 
   return ANSWER_KEYS.map(
     (answerKey) => {
+      const imageUrl =
+        buildQuestionImageUrl(
+          question[
+            `${answerKey}ImageId`
+          ] ??
+            question[
+              `${answerKey.toLowerCase()}ImageId`
+            ],
+          question[
+            `${answerKey}ImageUrl`
+          ] ??
+            question[
+              `${answerKey.toLowerCase()}ImageUrl`
+            ]
+        );
+
       return {
         id: answerKey,
 
@@ -616,6 +646,12 @@ function normalizeSingleChoiceOptions(
         `answer${answerKey}`
       ]
   ),
+
+        ...(imageUrl
+          ? {
+              imageUrl,
+            }
+          : {}),
       };
     }
   );
@@ -644,12 +680,26 @@ function normalizeStatementFromRecord(
         statement.statementContent ??
         statement.data
     );
+  const imageUrl =
+    buildQuestionImageUrl(
+      statement.imageId ??
+        statement.statementImageId,
+      statement.imageUrl ??
+        statement.statementImageUrl ??
+        statement.image
+    );
 
   return {
     id:
       normalizedId,
 
     content,
+
+    ...(imageUrl
+      ? {
+          imageUrl,
+        }
+      : {}),
   };
 }
 

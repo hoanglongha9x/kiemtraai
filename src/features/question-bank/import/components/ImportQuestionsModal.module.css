@@ -1062,6 +1062,24 @@
   white-space: pre-wrap;
 }
 
+.optionFallbackLink {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 8px;
+}
+
+.optionFallbackImage {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  border: 1px solid #dbe3ef;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
 .booleanToggle {
   display: inline-grid;
   grid-template-columns:

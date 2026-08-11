@@ -346,6 +346,20 @@ function normalizeText(
     : "";
 }
 
+function resolveImportedImageUrl(
+  imageId: string | undefined,
+  imageUrl: string | undefined
+) {
+  const normalizedId =
+    imageId?.trim();
+
+  return normalizedId
+    ? `/api/question-images/${encodeURIComponent(
+        normalizedId
+      )}`
+    : imageUrl?.trim() ?? "";
+}
+
 function validateQuestion(
   question:
     CreateQuestionInput
@@ -414,14 +428,16 @@ function validateQuestion(
         (option) =>
           !isMeaningfulImportedText(
             option.content
-          )
+          ) &&
+          !option.imageUrl?.trim() &&
+          !option.imageId?.trim()
       );
 
     if (
       emptyOptions.length > 0
     ) {
       errors.push(
-        "Có phương án trả lời trống hoặc chỉ chứa ký tự rác; ảnh chỉ được gắn vào phần câu hỏi."
+        "Có phương án trả lời trống hoặc chỉ chứa ký tự rác; cần nhận dạng lại công thức hay đối chiếu ảnh gốc."
       );
     }
 
@@ -824,6 +840,32 @@ function QuestionDetail({
                           );
                         }}
                       />
+
+                      {(option.imageUrl ||
+                        option.imageId) && (
+                        <a
+                          href={resolveImportedImageUrl(
+                            option.imageId,
+                            option.imageUrl
+                          )}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={
+                            styles.optionFallbackLink
+                          }
+                        >
+                          <img
+                            src={resolveImportedImageUrl(
+                              option.imageId,
+                              option.imageUrl
+                            )}
+                            alt={`Ảnh gốc phương án ${option.id}`}
+                            className={
+                              styles.optionFallbackImage
+                            }
+                          />
+                        </a>
+                      )}
                     </span>
 
                     {isCorrect && (
@@ -1034,6 +1076,32 @@ function QuestionDetail({
                         );
                       }}
                     />
+
+                    {(statement.imageUrl ||
+                      statement.imageId) && (
+                      <a
+                        href={resolveImportedImageUrl(
+                          statement.imageId,
+                          statement.imageUrl
+                        )}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={
+                          styles.optionFallbackLink
+                        }
+                      >
+                        <img
+                          src={resolveImportedImageUrl(
+                            statement.imageId,
+                            statement.imageUrl
+                          )}
+                          alt={`Ảnh gốc mệnh đề ${statement.id}`}
+                          className={
+                            styles.optionFallbackImage
+                          }
+                        />
+                      </a>
+                    )}
                   </span>
 
                   <div

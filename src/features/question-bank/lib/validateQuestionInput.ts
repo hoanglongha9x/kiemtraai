@@ -103,12 +103,14 @@ export function validateQuestionInput(
     const hasEmptyOption =
       question.options.some(
         (option) =>
-          !option.content.trim()
+          !option.content.trim() &&
+          !option.imageUrl?.trim() &&
+          !option.imageId?.trim()
       );
 
     if (hasEmptyOption) {
       errors.push(
-        "Phương án phải có nội dung; ảnh chỉ được gắn vào phần câu hỏi."
+        "Phương án phải có nội dung hoặc ảnh công thức."
       );
     }
 

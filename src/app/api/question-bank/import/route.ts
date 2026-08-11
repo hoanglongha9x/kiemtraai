@@ -463,143 +463,12 @@ function extractImageHint(
     ?.trim() ?? "";
 }
 
-function stripQuestionImageHintsFromImportQuestion(
-  item: ParsedImportQuestion
-): ParsedImportQuestion {
-  const question =
-    item.question;
-  const cleanContent =
-    removeImageHintLines(
-      question.content
-    ) ||
-    question.content;
-
-  return {
-    ...item,
-    question: {
-      ...question,
-      content:
-        cleanContent,
-      contentBlocks:
-        question.contentBlocks?.map(
-          (block) =>
-            block.type === "text"
-              ? {
-                  ...block,
-                  content:
-                    removeImageHintLines(
-                      block.content
-                    ) ||
-                    block.content,
-                }
-              : block
-        ),
-    },
-  };
-}
-
-function stripAnswerImagesFromImportQuestion(
-  item: ParsedImportQuestion
-): ParsedImportQuestion {
-  const cleanItem =
-    stripQuestionImageHintsFromImportQuestion(
-      item
-    );
-  const question =
-    cleanItem.question;
-
-  if (
-    question.type ===
-    "single_choice"
-  ) {
-    return {
-      ...cleanItem,
-      question: {
-        ...question,
-        options:
-          question.options.map(
-            (option) => ({
-              ...option,
-              imageId:
-                undefined,
-              imageUrl:
-                undefined,
-            })
-          ),
-      },
-    };
-  }
-
-  if (
-    question.type ===
-    "true_false_group"
-  ) {
-    return {
-      ...cleanItem,
-      question: {
-        ...question,
-        statements:
-          question.statements.map(
-            (statement) => ({
-              ...statement,
-              imageId:
-                undefined,
-              imageUrl:
-                undefined,
-            })
-          ),
-      },
-    };
-  }
-
-  return cleanItem;
-}
-
-function stripAnswerImagesFromImportQuestions(
-  questions:
-    ParsedImportQuestion[]
-) {
-  return questions.map(
-    stripAnswerImagesFromImportQuestion
-  );
-}
-
-function hasAttachedQuestionVisual(
-  item: ParsedImportQuestion
-) {
-  const question =
-    item.question;
-
-  if (
-    question.questionImageId ||
-    question.questionImageUrl
-  ) {
-    return true;
-  }
-
-  return Boolean(
-    question.contentBlocks?.some(
-      (block) =>
-        block.type === "image" ||
-        block.type === "table"
-    )
-  );
-}
-
 function buildPdfImageHintQuestions(
   questions:
     ParsedImportQuestion[]
 ): PdfImageHintQuestion[] {
   return questions
     .filter((item) => {
-      if (
-        hasAttachedQuestionVisual(
-          item
-        )
-      ) {
-        return false;
-      }
-
       const imageHint =
         extractImageHint(
           item.question.content
@@ -6692,14 +6561,6 @@ async function attachPdfImagesToQuestions({
       >();
 
     questions.forEach((item) => {
-      if (
-        hasAttachedQuestionVisual(
-          item
-        )
-      ) {
-        return;
-      }
-
       const questionRegion =
         questionRegionByNumber.get(
           item.sourceNumber
@@ -6784,14 +6645,6 @@ async function attachPdfImagesToQuestions({
       );
 
     for (const item of questions) {
-      if (
-        hasAttachedQuestionVisual(
-          item
-        )
-      ) {
-        continue;
-      }
-
       const region =
         regionByQuestion.get(
           item.sourceNumber
@@ -7237,22 +7090,33 @@ export async function POST(
     const imageAttachResult =
       parsedFile.extension ===
       "pdf"
-        ? ENABLE_PDF_IMAGE_AUTO_ATTACH
-          ? await attachPdfImagesToQuestions(
-            {
-              file,
+        ? hasDocxAssets
+          ? {
               questions:
                 duplicateCheck.questions,
+              warnings: [
+                {
+                  message:
+                    "Đã ưu tiên hình lấy từ DOCX nên bỏ qua bước tự crop hình từ PDF.",
+                },
+              ],
             }
-          )
-          : {
-              questions:
-                duplicateCheck.questions,
-              warnings:
-                buildSkippedPdfImageAttachWarnings(
-                  duplicateCheck.questions
-                ),
-            }
+          : ENABLE_PDF_IMAGE_AUTO_ATTACH
+            ? await attachPdfImagesToQuestions(
+                {
+                  file,
+                  questions:
+                    duplicateCheck.questions,
+                }
+              )
+            : {
+                questions:
+                  duplicateCheck.questions,
+                warnings:
+                  buildSkippedPdfImageAttachWarnings(
+                    duplicateCheck.questions
+                  ),
+              }
         : {
             questions:
               duplicateCheck.questions,
@@ -7269,9 +7133,7 @@ export async function POST(
           .questions.length,
 
       questions:
-        stripAnswerImagesFromImportQuestions(
-          imageAttachResult.questions
-        ),
+        imageAttachResult.questions,
 
       warnings:
         [
