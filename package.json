@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "WATCHPACK_POLLING=true CHOKIDAR_USEPOLLING=true next dev --webpack -p 3003",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "tsc --noEmit -p tsconfig.typecheck.json",
     "test": "vitest run",
