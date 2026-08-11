@@ -53,9 +53,13 @@ BƯỚC 2 - XỬ LÝ BẢNG / ẢNH / SƠ ĐỒ / CODE MINH HỌA (BẮT BUỘC)
   bất kỳ dòng/cột nào của bảng gốc.
 - Với ẢNH / SƠ ĐỒ / GIAO DIỆN WEB không thể diễn giải đầy đủ bằng văn
   bản (ví dụ: hình chụp giao diện, biểu đồ phức tạp, mockup):
-  KHÔNG bỏ qua nội dung. Diễn giải bằng văn bản phần nào diễn giải được.
-  Không thêm dòng ghi chú chèn ảnh; hệ thống sẽ tự ghép ảnh từ PDF/DOCX
-  vào vùng nội dung câu hỏi khi có ảnh nguồn phù hợp.
+  KHÔNG bỏ qua nội dung. Thay vào đó:
+  1. Diễn giải bằng văn bản phần nào diễn giải được.
+  2. Thêm dòng ghi chú NGAY SAU dòng nội dung câu hỏi, theo đúng
+     cú pháp cố định:
+     [GHI CHÚ: Cần chèn ảnh minh họa - <mô tả ngắn ảnh gốc>]
+  3. Dòng ghi chú này chỉ là tín hiệu nội bộ để hệ thống ghép ảnh từ
+     PDF/DOCX, không phải nội dung hiển thị cho học sinh.
 - Với ĐOẠN MÃ (code) đa dòng, song ngữ: giữ nguyên đầy đủ nội dung
   lệnh, nối các dòng bằng " ; ", không dùng Tab, không xuống dòng thật,
   không rút gọn hay bỏ lệnh nào.
@@ -118,6 +122,7 @@ TRẮC NGHIỆM
 ==========================================================
 Câu ...
 [Nội dung câu hỏi]
+[GHI CHÚ: ... (nếu có, xem Bước 2)]
 Loại: Trắc nghiệm
 Môn:
 Khối:
@@ -139,6 +144,7 @@ Giải thích:
 ==========================================================
 Câu ...
 [Nội dung câu hỏi / tình huống dẫn]
+[GHI CHÚ: ... (nếu có)]
 Loại: Đúng-Sai
 Môn:
 Khối:
@@ -159,6 +165,7 @@ TRẢ LỜI NGẮN
 ==========================================================
 Câu ...
 [Nội dung câu hỏi]
+[GHI CHÚ: ... (nếu có)]
 Loại: Trả lời ngắn
 Môn:
 Khối:
@@ -188,7 +195,7 @@ KIỂM TRA TRƯỚC KHI XUẤT (BẮT BUỘC - đối chiếu Bước 0)
 ✓ Không có 2 câu nào trong file trùng số thứ tự "Câu X."
 ✓ Mọi câu đều có dòng nội dung câu hỏi ngay sau "Câu X."
 ✓ Mọi câu đều có trường "Loại" đúng với cấu trúc câu hỏi.
-✓ Mọi bảng/code đã được diễn giải đầy đủ; không có dòng [GHI CHÚ: ...] trong kết quả.
+✓ Mọi bảng/code đã được diễn giải đầy đủ; mọi ảnh/sơ đồ không diễn giải được đã có dòng [GHI CHÚ: ...] để hệ thống tự ghép ảnh.
 ✓ "Độ khó" chỉ chứa Dễ/Trung bình/Khó.
 ✓ "Mức độ" chỉ chứa Nhận biết/Thông hiểu/Vận dụng.
 ✓ Mọi câu Đúng/Sai đều có đủ 4 mệnh đề a) b) c) d).

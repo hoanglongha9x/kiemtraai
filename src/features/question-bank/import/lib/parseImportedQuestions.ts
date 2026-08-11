@@ -83,9 +83,6 @@ const CASE_SENSITIVE_PATTERN =
 const TRIM_WHITESPACE_PATTERN =
   /^\s*(?:bỏ\s*khoảng\s*trắng|bo\s*khoang\s*trang|trim\s*whitespace)\s*[\:\-]\s*(.*)$/i;
 
-const IMAGE_HINT_LINE_PATTERN =
-  /^\s*\[GHI CHÚ:\s*Cần chèn ảnh minh họa\b.*\]\s*$/i;
-
 const TRUE_WORDS =
   new Set([
     "dung",
@@ -1134,14 +1131,6 @@ function extractMetadata(
     string[] = [];
 
   for (const line of lines) {
-    if (
-      IMAGE_HINT_LINE_PATTERN.test(
-        line
-      )
-    ) {
-      continue;
-    }
-
     const typeMatch =
       line.match(
         TYPE_PATTERN

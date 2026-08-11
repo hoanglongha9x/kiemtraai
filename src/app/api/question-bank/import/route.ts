@@ -463,18 +463,57 @@ function extractImageHint(
     ?.trim() ?? "";
 }
 
-function stripAnswerImagesFromImportQuestion(
+function stripQuestionImageHintsFromImportQuestion(
   item: ParsedImportQuestion
 ): ParsedImportQuestion {
   const question =
     item.question;
+  const cleanContent =
+    removeImageHintLines(
+      question.content
+    ) ||
+    question.content;
+
+  return {
+    ...item,
+    question: {
+      ...question,
+      content:
+        cleanContent,
+      contentBlocks:
+        question.contentBlocks?.map(
+          (block) =>
+            block.type === "text"
+              ? {
+                  ...block,
+                  content:
+                    removeImageHintLines(
+                      block.content
+                    ) ||
+                    block.content,
+                }
+              : block
+        ),
+    },
+  };
+}
+
+function stripAnswerImagesFromImportQuestion(
+  item: ParsedImportQuestion
+): ParsedImportQuestion {
+  const cleanItem =
+    stripQuestionImageHintsFromImportQuestion(
+      item
+    );
+  const question =
+    cleanItem.question;
 
   if (
     question.type ===
     "single_choice"
   ) {
     return {
-      ...item,
+      ...cleanItem,
       question: {
         ...question,
         options:
@@ -496,7 +535,7 @@ function stripAnswerImagesFromImportQuestion(
     "true_false_group"
   ) {
     return {
-      ...item,
+      ...cleanItem,
       question: {
         ...question,
         statements:
@@ -513,7 +552,7 @@ function stripAnswerImagesFromImportQuestion(
     };
   }
 
-  return item;
+  return cleanItem;
 }
 
 function stripAnswerImagesFromImportQuestions(
@@ -644,10 +683,12 @@ Quy tắc bắt buộc khi chuyển đổi:
 - Nếu tiêu đề bị tách dòng, ví dụ dòng riêng "PHẦN II." rồi dòng sau mới ghi "Trắc nghiệm đúng sai", vẫn phải hiểu các câu sau đó là Loại: Đúng-Sai cho đến tiêu đề PHẦN kế tiếp.
 - Công thức toán phải được giữ bằng LaTeX trong cú pháp \\(...\\) hoặc \\[...\\] khi cần.
 - Không bỏ các ký hiệu như căn, phân số, chỉ số, mũ, log, sin/cos/tan, tích phân, giới hạn, vector, tọa độ, ma trận.
-- Nếu câu hỏi phụ thuộc vào hình vẽ/đồ thị/sơ đồ/hình học mà không thể diễn giải đầy đủ bằng văn bản, chỉ diễn giải phần văn bản đọc được. Không thêm dòng [GHI CHÚ]; hệ thống sẽ tự ghép ảnh từ PDF/DOCX vào nội dung câu hỏi khi có ảnh nguồn phù hợp.
+- Nếu câu hỏi phụ thuộc vào hình vẽ/đồ thị/sơ đồ/hình học mà không thể diễn giải đầy đủ bằng văn bản, thêm dòng:
+  [GHI CHÚ: Cần chèn ảnh minh họa - <mô tả ngắn hình gốc>]
 - Nếu có thể diễn giải hình thành dữ kiện văn bản chính xác, hãy diễn giải đầy đủ.
 - Không làm phẳng bảng thành chuỗi dùng dấu " | " hoặc ";". Mọi bảng phải được giữ bằng ảnh crop từ PDF để không mất hàng, cột, đường viền, gộp ô và căn chỉnh.
-- Với mọi bảng dữ liệu, bảng công thức hoặc bảng có hình minh họa, không thêm dòng [GHI CHÚ]; bảng/hình sẽ được giữ bằng ảnh crop hoặc ảnh nhúng trong vùng nội dung câu hỏi.
+- Với mọi bảng dữ liệu, bảng công thức hoặc bảng có hình minh họa, thêm dòng:
+  [GHI CHÚ: Cần chèn ảnh minh họa - bảng dữ liệu/công thức của câu]
 - Không tự giải lại làm thay đổi đáp án gốc.
 - Nếu PDF không có đáp án hoặc đáp án không xuất hiện rõ ràng trong tài liệu, với câu trắc nghiệm hoặc trả lời ngắn, ghi đúng:
   Đáp án: CHƯA CÓ ĐÁP ÁN

@@ -101,7 +101,7 @@ d) <meta>
     expect(result.questions[0].question.type).toBe("single_choice");
   });
 
-  it("removes image insertion notes from question content", () => {
+  it("keeps image insertion notes for downstream image attachment", () => {
     const result = parseImportedQuestions(`
 Câu 16. Hình vẽ nào sau đây mô tả đúng chiều dòng điện cảm ứng trong khung dây?
 [GHI CHÚ: Cần chèn ảnh minh họa - mạch điện với khung dây]
@@ -116,8 +116,8 @@ D. Hình 4
 `);
 
     expect(result.questions).toHaveLength(1);
-    expect(result.questions[0].question.content).toBe(
-      "Hình vẽ nào sau đây mô tả đúng chiều dòng điện cảm ứng trong khung dây?"
+    expect(result.questions[0].question.content).toContain(
+      "[GHI CHÚ: Cần chèn ảnh minh họa - mạch điện với khung dây]"
     );
   });
 
