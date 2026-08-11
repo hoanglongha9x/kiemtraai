@@ -564,12 +564,42 @@ function stripAnswerImagesFromImportQuestions(
   );
 }
 
+function hasAttachedQuestionVisual(
+  item: ParsedImportQuestion
+) {
+  const question =
+    item.question;
+
+  if (
+    question.questionImageId ||
+    question.questionImageUrl
+  ) {
+    return true;
+  }
+
+  return Boolean(
+    question.contentBlocks?.some(
+      (block) =>
+        block.type === "image" ||
+        block.type === "table"
+    )
+  );
+}
+
 function buildPdfImageHintQuestions(
   questions:
     ParsedImportQuestion[]
 ): PdfImageHintQuestion[] {
   return questions
     .filter((item) => {
+      if (
+        hasAttachedQuestionVisual(
+          item
+        )
+      ) {
+        return false;
+      }
+
       const imageHint =
         extractImageHint(
           item.question.content
@@ -6662,6 +6692,14 @@ async function attachPdfImagesToQuestions({
       >();
 
     questions.forEach((item) => {
+      if (
+        hasAttachedQuestionVisual(
+          item
+        )
+      ) {
+        return;
+      }
+
       const questionRegion =
         questionRegionByNumber.get(
           item.sourceNumber
@@ -6746,6 +6784,14 @@ async function attachPdfImagesToQuestions({
       );
 
     for (const item of questions) {
+      if (
+        hasAttachedQuestionVisual(
+          item
+        )
+      ) {
+        continue;
+      }
+
       const region =
         regionByQuestion.get(
           item.sourceNumber
@@ -7191,18 +7237,7 @@ export async function POST(
     const imageAttachResult =
       parsedFile.extension ===
       "pdf"
-        ? hasDocxAssets
-          ? {
-              questions:
-                duplicateCheck.questions,
-              warnings: [
-                {
-                  message:
-                    "Đã ưu tiên hình lấy từ DOCX nên bỏ qua bước tự crop hình từ PDF.",
-                },
-              ],
-            }
-          : ENABLE_PDF_IMAGE_AUTO_ATTACH
+        ? ENABLE_PDF_IMAGE_AUTO_ATTACH
           ? await attachPdfImagesToQuestions(
             {
               file,
