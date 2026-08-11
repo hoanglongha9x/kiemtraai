@@ -1,0 +1,157 @@
+.registrationArea {
+  min-height: 100vh;
+
+  padding: 28px;
+
+  background: #f4f7fb;
+}
+
+.loadingPage {
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      #dbeafe,
+      #eef4ff 42%,
+      #ffffff
+    );
+}
+
+.loadingCard {
+  width: min(
+    100%,
+    420px
+  );
+
+  padding: 34px;
+
+  border:
+    1px solid
+    #e2e8f0;
+  border-radius: 24px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 24px 70px
+    rgb(15 23 42 / 12%);
+
+  text-align: center;
+}
+
+.loadingCard h1 {
+  margin: 18px 0 8px;
+
+  color: #172554;
+
+  font-size: 24px;
+}
+
+.loadingCard p {
+  margin: 0;
+
+  color: #64748b;
+}
+
+.logo {
+  position: relative;
+
+  width: 64px;
+  height: 64px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 0 auto;
+
+  border-radius: 20px;
+
+  background:
+    radial-gradient(
+      circle at 24% 18%,
+      rgb(255 255 255 / 34%),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #1d4ed8 0%,
+      #4f46e5 48%,
+      #7c3aed 100%
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 16px 32px
+    rgb(79 70 229 / 28%),
+    inset 0 1px 0
+    rgb(255 255 255 / 34%);
+
+  overflow: hidden;
+
+  font-family:
+    ui-serif,
+    Georgia,
+    serif;
+  font-size: 34px;
+  font-style: italic;
+  font-weight: 950;
+  line-height: 1;
+
+  text-shadow:
+    0 2px 8px
+    rgb(15 23 42 / 18%);
+}
+
+.logo::before {
+  content: "";
+
+  position: absolute;
+  inset: 8px;
+
+  border:
+    1px solid
+    rgb(255 255 255 / 18%);
+  border-radius: inherit;
+
+  pointer-events: none;
+}
+
+.logo::after {
+  content: "";
+
+  position: absolute;
+  top: 12px;
+  right: 16px;
+
+  width: 5px;
+  height: 38px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 92%),
+      rgb(219 234 254 / 38%)
+    );
+
+  opacity: 0.78;
+
+  transform:
+    rotate(32deg);
+
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .registrationArea {
+    padding: 16px;
+  }
+}

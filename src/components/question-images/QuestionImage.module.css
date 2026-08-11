@@ -1,0 +1,47 @@
+.figure {
+  width: 100%;
+  margin: 14px 0;
+}
+
+.imageFrame {
+  display: flex;
+  width: 100%;
+  min-height: 80px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+}
+
+.caption {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .figure {
+    margin: 10px 0;
+  }
+
+  .imageFrame {
+    border-radius: 10px;
+  }
+
+  .image {
+    max-height: 360px;
+  }
+}

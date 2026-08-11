@@ -1,0 +1,135 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 42px;
+  padding: 10px 16px;
+
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius-md);
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background var(--ui-transition),
+    border-color var(--ui-transition),
+    color var(--ui-transition),
+    box-shadow var(--ui-transition),
+    transform var(--ui-transition);
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 3px solid rgba(109, 40, 217, 0.2);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Variants */
+
+.primary {
+  background: var(--ui-primary);
+  color: #ffffff;
+  box-shadow:
+    0 8px 18px rgba(109, 40, 217, 0.2);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--ui-primary-hover);
+  box-shadow:
+    0 10px 22px rgba(109, 40, 217, 0.25);
+}
+
+.secondary {
+  background: var(--ui-secondary);
+  color: #ffffff;
+  box-shadow:
+    0 8px 18px rgba(37, 99, 235, 0.18);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--ui-secondary-hover);
+}
+
+.outline {
+  background: var(--ui-surface);
+  color: var(--ui-text-secondary);
+  border-color: var(--ui-border-strong);
+}
+
+.outline:hover:not(:disabled) {
+  background: var(--ui-surface-muted);
+  color: var(--ui-text);
+  border-color: #94a3b8;
+}
+
+.ghost {
+  background: transparent;
+  color: var(--ui-text-secondary);
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--ui-surface-muted);
+  color: var(--ui-text);
+}
+
+.danger {
+  background: var(--ui-danger-soft);
+  color: var(--ui-danger);
+  border-color: #fecaca;
+}
+
+.danger:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.success {
+  background: var(--ui-success);
+  color: #ffffff;
+}
+
+.success:hover:not(:disabled) {
+  background: #047857;
+}
+
+/* Sizes */
+
+.small {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: var(--ui-radius-sm);
+  font-size: 13px;
+}
+
+.medium {
+  min-height: 42px;
+}
+
+.large {
+  min-height: 48px;
+  padding: 13px 20px;
+  font-size: 15px;
+}
+
+.fullWidth {
+  width: 100%;
+}

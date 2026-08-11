@@ -1,0 +1,544 @@
+.page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f5f7fb;
+  color: #0f172a;
+}
+
+.pageHeader,
+.listHeader,
+.sectionHeading,
+.classSelectorHeader,
+.assignmentCardHeader,
+.assignmentFooter {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.pageHeader {
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.pageDescription,
+.sectionDescription,
+.smallDescription,
+.assignmentSubtitle {
+  margin: 7px 0 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.panel {
+  margin-bottom: 24px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.sectionTitle,
+.subsectionTitle {
+  margin: 0;
+  color: #0f172a;
+}
+
+.sectionTitle {
+  font-size: 21px;
+}
+
+.subsectionTitle {
+  font-size: 17px;
+}
+
+.createForm {
+  display: grid;
+  gap: 22px;
+}
+
+.formGrid,
+.previewGrid,
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.field,
+.fieldFull {
+  display: block;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: block;
+  margin-bottom: 7px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.input,
+.searchInput,
+.filterSelect {
+  width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  padding: 10px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  outline: none;
+  background: #ffffff;
+  color: #0f172a;
+  font: inherit;
+}
+
+.input:focus,
+.searchInput:focus,
+.filterSelect:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.classSelector {
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.inlineActions,
+.cardActions,
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.textButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #2563eb;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.textButton:disabled,
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.dangerButton:disabled,
+.openExamButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.classGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.classOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  background: #ffffff;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.classOption:hover {
+  border-color: #93c5fd;
+  transform: translateY(-1px);
+}
+
+.classOptionSelected {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.classOptionContent {
+  display: grid;
+  gap: 4px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.classOptionContent strong {
+  color: #0f172a;
+  font-size: 15px;
+}
+
+.settingOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.settingOption span {
+  display: grid;
+  gap: 4px;
+}
+
+.settingOption small {
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.previewCard {
+  padding: 18px;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  background: #eff6ff;
+}
+
+.previewCard h3 {
+  margin: 8px 0 14px;
+}
+
+.previewLabel {
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.detailList {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+}
+
+.detailList div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.detailList dt {
+  color: #64748b;
+}
+
+.detailList dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.selectedClassList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selectedClassList span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.primaryButton,
+.secondaryButton,
+.dangerButton,
+.openExamButton {
+  min-height: 42px;
+  padding: 10px 15px;
+  border-radius: 11px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.primaryButton {
+  width: 100%;
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.secondaryButton {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+}
+
+.dangerButton {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.openExamButton {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.feedback,
+.inlineError {
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.feedbackSuccess {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.feedbackLoading,
+.feedbackInfo {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.feedbackError,
+.inlineError {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.assignmentList {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.assignmentCard {
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 17px;
+  background: #ffffff;
+}
+
+.assignmentMetaLine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.assignmentTitle {
+  margin: 12px 0 0;
+  font-size: 20px;
+}
+
+.versionText {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.statusBadge {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.statusActive {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.statusScheduled {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.statusClosed {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.statusLocked {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.statusArchived {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.assignmentStats,
+.assignmentInformation {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.assignmentStats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.assignmentInformation {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 16px;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.assignmentStats div,
+.assignmentInformation div {
+  display: grid;
+  gap: 5px;
+}
+
+.assignmentStats span,
+.assignmentInformation span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.assignmentFooter {
+  align-items: center;
+  margin-top: 18px;
+}
+
+.toolbar {
+  min-width: 430px;
+}
+
+.searchInput {
+  min-width: 260px;
+}
+
+.filterSelect {
+  width: 170px;
+}
+
+.emptyState,
+.emptyInline {
+  display: grid;
+  place-items: center;
+  gap: 7px;
+  color: #64748b;
+  text-align: center;
+}
+
+.emptyState {
+  margin-top: 20px;
+  padding: 38px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.emptyInline {
+  padding: 25px;
+}
+
+.loadingCard {
+  height: 180px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  background: #e2e8f0;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1000px) {
+  .classGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .assignmentStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .listHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .toolbar {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 18px;
+  }
+
+  .pageHeader,
+  .sectionHeading,
+  .classSelectorHeader,
+  .assignmentCardHeader,
+  .assignmentFooter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .formGrid,
+  .previewGrid,
+  .settingsGrid,
+  .classGrid,
+  .assignmentInformation {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar,
+  .cardActions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .searchInput,
+  .filterSelect {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .dangerButton,
+  .openExamButton {
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

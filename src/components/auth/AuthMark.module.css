@@ -1,0 +1,68 @@
+.mark {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.36), transparent 32%),
+    linear-gradient(135deg, #1d4ed8, #4f46e5 48%, #7c3aed);
+  color: #ffffff;
+  box-shadow:
+    0 12px 26px rgba(79, 70, 229, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  font-family:
+    Georgia,
+    serif;
+  font-style: italic;
+  font-weight: 950;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(219, 234, 254, 0.38)
+    );
+  opacity: 0.78;
+  transform: rotate(32deg);
+}
+
+.small {
+  width: 42px;
+  height: 42px;
+  font-size: 22px;
+}
+
+.small::after {
+  top: 8px;
+  right: 10px;
+  width: 4px;
+  height: 27px;
+}
+
+.large {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  font-size: 38px;
+  box-shadow:
+    0 16px 36px rgba(79, 70, 229, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.large::after {
+  top: 14px;
+  right: 18px;
+  width: 6px;
+  height: 44px;
+}

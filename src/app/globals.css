@@ -1,0 +1,125 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: #eef4ff;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+textarea {
+  display: block;
+}
+
+table {
+  border-spacing: 0;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* =========================================================
+   KIEMTRA.AI DESIGN SYSTEM
+   ========================================================= */
+
+:root {
+  /* Brand */
+  --ui-primary: #6d28d9;
+  --ui-primary-hover: #5b21b6;
+  --ui-primary-soft: #f3e8ff;
+
+  --ui-secondary: #2563eb;
+  --ui-secondary-hover: #1d4ed8;
+  --ui-secondary-soft: #eff6ff;
+
+  /* Semantic */
+  --ui-success: #059669;
+  --ui-success-soft: #ecfdf5;
+
+  --ui-warning: #d97706;
+  --ui-warning-soft: #fffbeb;
+
+  --ui-danger: #dc2626;
+  --ui-danger-soft: #fef2f2;
+
+  /* Neutral */
+  --ui-background: #f7f8fc;
+  --ui-surface: #ffffff;
+  --ui-surface-muted: #f8fafc;
+
+  --ui-text: #111827;
+  --ui-text-secondary: #475569;
+  --ui-text-muted: #94a3b8;
+
+  --ui-border: #e5e7eb;
+  --ui-border-strong: #cbd5e1;
+
+  /* Radius */
+  --ui-radius-sm: 10px;
+  --ui-radius-md: 14px;
+  --ui-radius-lg: 20px;
+  --ui-radius-xl: 24px;
+
+  /* Shadow */
+  --ui-shadow-sm:
+    0 2px 8px rgba(15, 23, 42, 0.04);
+
+  --ui-shadow-md:
+    0 10px 30px rgba(15, 23, 42, 0.07);
+
+  --ui-shadow-lg:
+    0 20px 50px rgba(15, 23, 42, 0.1);
+
+  /* Motion */
+  --ui-transition:
+    160ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--ui-background);
+  color: var(--ui-text);
+}
+
+/* Shared accessibility */
+
+.ui-focus-ring:focus-visible {
+  outline: 3px solid rgba(109, 40, 217, 0.2);
+  outline-offset: 2px;
+}

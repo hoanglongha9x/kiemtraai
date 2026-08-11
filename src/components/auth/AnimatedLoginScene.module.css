@@ -1,0 +1,435 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.22), transparent 34%),
+    linear-gradient(135deg, #2e1065, #172554 58%, #020617);
+  color: #0f172a;
+  font-family:
+    Arial,
+    sans-serif;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  padding: 96px 28px 54px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(244, 114, 182, 0.34), transparent 30%),
+    radial-gradient(circle at 78% 74%, rgba(14, 165, 233, 0.22), transparent 32%),
+    linear-gradient(135deg, #581c87 0%, #be185d 45%, #1e1b4b 100%);
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(88, 28, 135, 0.94), rgba(219, 39, 119, 0.72) 44%, rgba(30, 27, 75, 0.96));
+}
+
+.sky::before,
+.sky::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  background:
+    linear-gradient(132deg, transparent 0 13%, rgba(255, 255, 255, 0.1) 13% 17%, transparent 17% 31%, rgba(59, 130, 246, 0.18) 31% 36%, transparent 36% 100%),
+    linear-gradient(42deg, transparent 0 22%, rgba(249, 115, 22, 0.22) 22% 27%, transparent 27% 48%, rgba(236, 72, 153, 0.22) 48% 55%, transparent 55% 100%);
+  opacity: 0.82;
+  animation: patternDrift 18s ease-in-out infinite;
+}
+
+.sky::after {
+  opacity: 0.48;
+  filter: blur(1px);
+  transform: rotate(180deg);
+  animation-duration: 26s;
+}
+
+.sun {
+  position: absolute;
+  left: 15%;
+  top: 120px;
+  width: 290px;
+  height: 290px;
+  border-radius: 44px;
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.24), rgba(255, 255, 255, 0.08));
+  transform: rotate(-36deg);
+  box-shadow: 0 30px 90px rgba(2, 8, 23, 0.18);
+  animation: sunFloat 8s ease-in-out infinite;
+}
+
+.cloud {
+  position: absolute;
+  height: 54px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(236, 72, 153, 0.88), rgba(249, 115, 22, 0.76));
+  opacity: 0.72;
+  animation: cloudDrift 20s ease-in-out infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  background: inherit;
+}
+
+.cloud::before {
+  left: -26px;
+  top: -62px;
+  width: 210px;
+  height: 54px;
+  opacity: 0.7;
+  transform: rotate(90deg);
+}
+
+.cloud::after {
+  right: -42px;
+  top: 84px;
+  width: 180px;
+  height: 54px;
+  opacity: 0.52;
+  transform: rotate(90deg);
+}
+
+.cloudOne {
+  left: 8%;
+  top: 70px;
+  width: 360px;
+  transform: rotate(-42deg);
+}
+
+.cloudTwo {
+  right: 8%;
+  top: 58%;
+  width: 440px;
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.32), rgba(255, 255, 255, 0.1));
+  transform: rotate(-42deg);
+  animation-delay: -7s;
+}
+
+.cloudThree {
+  left: 52%;
+  top: 18%;
+  width: 300px;
+  background:
+    linear-gradient(90deg, rgba(253, 224, 71, 0.82), rgba(249, 115, 22, 0.7));
+  opacity: 0.78;
+  transform: rotate(46deg);
+  animation-delay: -12s;
+}
+
+.mountain {
+  position: absolute;
+  border-radius: 999px;
+  clip-path: none;
+}
+
+.mountainBack {
+  left: 18%;
+  top: 18%;
+  width: 360px;
+  height: 360px;
+  background: rgba(20, 184, 166, 0.34);
+  opacity: 0.7;
+  animation: mountainBreath 12s ease-in-out infinite;
+}
+
+.mountainMid {
+  right: 12%;
+  bottom: 12%;
+  width: 320px;
+  height: 320px;
+  background: rgba(15, 23, 42, 0.22);
+  opacity: 0.72;
+  animation: mountainBreath 14s ease-in-out infinite reverse;
+}
+
+.mountainFront {
+  left: 42%;
+  bottom: 10%;
+  width: 150px;
+  height: 150px;
+  background: rgba(253, 224, 71, 0.9);
+}
+
+.forest {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  opacity: 0.84;
+  background:
+    linear-gradient(90deg, transparent 38%, #f97316 38% 62%, transparent 62%),
+    linear-gradient(0deg, transparent 38%, #f97316 38% 62%, transparent 62%);
+  clip-path: none;
+}
+
+.forestLeft {
+  left: 66%;
+  top: 22%;
+  transform: rotate(45deg);
+}
+
+.forestRight {
+  right: 18%;
+  bottom: 28%;
+  transform: rotate(45deg);
+}
+
+.glow {
+  position: absolute;
+  inset: auto 18% 8% 18%;
+  height: 190px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.2);
+  filter: blur(42px);
+}
+
+.topbar {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  right: 28px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.welcomeCopy {
+  position: absolute;
+  left: clamp(42px, 7vw, 118px);
+  top: 34%;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  color: #ffffff;
+  text-shadow: 0 18px 44px rgba(15, 23, 42, 0.3);
+  pointer-events: none;
+  animation: welcomeFloat 7s ease-in-out infinite;
+}
+
+.welcomeCopy span,
+.welcomeCopy strong {
+  display: block;
+  background:
+    linear-gradient(90deg, #ffffff, #dbeafe, #ffffff);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: textShimmer 4.8s ease-in-out infinite;
+}
+
+.welcomeCopy span {
+  font-size: clamp(48px, 5.6vw, 92px);
+  font-weight: 500;
+  line-height: 0.96;
+}
+
+.welcomeCopy strong {
+  font-size: clamp(58px, 6.5vw, 112px);
+  font-weight: 950;
+  line-height: 0.94;
+}
+
+.logo {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.36), transparent 32%),
+    linear-gradient(135deg, #1d4ed8, #4f46e5 48%, #7c3aed);
+  color: #fff;
+  box-shadow: 0 12px 26px rgba(79, 70, 229, 0.28);
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 950;
+}
+
+.logo::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 4px;
+  height: 27px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(219, 234, 254, 0.38));
+  transform: rotate(32deg);
+}
+
+.pill {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  backdrop-filter: blur(10px);
+}
+
+.panel {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 540px);
+  justify-self: end;
+  margin-right: clamp(28px, 11vw, 220px);
+  padding: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 26px 80px rgba(2, 8, 23, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(14px);
+}
+
+@keyframes patternDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(-22px, 18px, 0) rotate(1.2deg);
+  }
+}
+
+@keyframes cloudDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(28px, -8px, 0);
+  }
+}
+
+@keyframes mountainBreath {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes sunFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes welcomeFloat {
+  0%,
+  100% {
+    opacity: 0.94;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes textShimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun,
+  .cloud,
+  .mountain,
+  .welcomeCopy,
+  .welcomeCopy span,
+  .welcomeCopy strong {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 0;
+  }
+
+  .stage {
+    min-height: 100vh;
+    border-radius: 0;
+    padding: 88px 16px 28px;
+  }
+
+  .topbar {
+    left: 16px;
+    right: 16px;
+    top: 18px;
+  }
+
+  .brand {
+    font-size: 15px;
+  }
+
+  .pill {
+    display: none;
+  }
+
+  .welcomeCopy {
+    display: none;
+  }
+
+  .panel {
+    justify-self: center;
+    margin-right: 0;
+    padding: 26px 20px;
+    border-radius: 18px;
+  }
+}

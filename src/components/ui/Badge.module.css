@@ -1,0 +1,69 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  min-height: 26px;
+  padding: 5px 10px;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.primary {
+  background: var(--ui-primary-soft);
+  color: var(--ui-primary);
+  border-color: #e9d5ff;
+}
+
+.success {
+  background: var(--ui-success-soft);
+  color: var(--ui-success);
+  border-color: #a7f3d0;
+}
+
+.warning {
+  background: var(--ui-warning-soft);
+  color: var(--ui-warning);
+  border-color: #fde68a;
+}
+
+.danger {
+  background: var(--ui-danger-soft);
+  color: var(--ui-danger);
+  border-color: #fecaca;
+}
+
+.gray {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+.blue {
+  background: var(--ui-secondary-soft);
+  color: var(--ui-secondary);
+  border-color: #bfdbfe;
+}
+
+.small {
+  min-height: 22px;
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.medium {
+  min-height: 26px;
+}
+
+.large {
+  min-height: 30px;
+  padding: 6px 12px;
+  font-size: 13px;
+}

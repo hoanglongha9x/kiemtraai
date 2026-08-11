@@ -1,0 +1,75 @@
+.content {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.text {
+  color: inherit;
+  font: inherit;
+}
+
+.tableScroller {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+}
+
+.table {
+  width: 100%;
+  min-width: 520px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.table td {
+  min-width: 84px;
+  padding: 10px 12px;
+  border: 1px solid #94a3b8;
+  overflow-wrap: anywhere;
+}
+
+.cellContent {
+  font: inherit;
+  line-height: 1.55 !important;
+  white-space: pre-wrap;
+}
+
+.imageFigure {
+  width: 100%;
+  margin: 0;
+}
+
+.imageLink {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .content {
+    gap: 10px;
+  }
+
+  .table {
+    min-width: 440px;
+    font-size: 13px;
+  }
+
+  .table td {
+    padding: 8px 9px;
+  }
+}

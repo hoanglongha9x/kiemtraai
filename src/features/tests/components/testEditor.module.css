@@ -1,0 +1,896 @@
+.editorPage {
+  min-height: 100%;
+  padding: 24px;
+  background: #f6f7fb;
+  color: #172033;
+}
+
+.editorHeader {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #e4e7ec;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.editorHeaderMain {
+  min-width: 0;
+  flex: 1;
+}
+
+.backLink {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: #475467;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: #175cd3;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testTitleInput {
+  width: min(720px, 100%);
+  padding: 0;
+  font-size: 25px;
+  font-weight: 750;
+  line-height: 1.3;
+  color: #101828;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.testTitleInput:focus {
+  box-shadow: 0 2px 0 #2e90fa;
+}
+
+.saveStatus {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  font-size: 12px;
+  color: #475467;
+  background: #f2f4f7;
+  border-radius: 999px;
+}
+
+.saveStatusError {
+  color: #b42318;
+  background: #fee4e2;
+}
+
+.testSummary,
+.sectionMeta,
+.questionMeta,
+.pickerMetadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.testSummary {
+  margin-top: 8px;
+}
+
+.editorHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.editorLayout {
+  display: grid;
+  grid-template-columns: minmax(250px, 310px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.informationPanel {
+  position: sticky;
+  top: 130px;
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 16px;
+}
+
+.informationPanel h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.sectionsColumn {
+  display: grid;
+  gap: 20px;
+}
+
+.sectionCard {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.04);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.sectionActions,
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.sectionHeading {
+  min-width: 0;
+  flex: 1;
+}
+
+.sectionTitleInput {
+  width: 100%;
+  padding: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #101828;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.sectionSettings {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #fcfcfd;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.field,
+.scoreField {
+  display: grid;
+  gap: 6px;
+}
+
+.field > span,
+.scoreField > span {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.scoreField input,
+.input,
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  color: #101828;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: 9px;
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.scoreField input:focus,
+.input:focus,
+.select:focus {
+  border-color: #2e90fa;
+  box-shadow: 0 0 0 3px rgba(46, 144, 250, 0.13);
+}
+
+.field textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.primaryButton,
+.secondaryButton,
+.iconButton,
+.dangerIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 13px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  border-radius: 9px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.primaryButton {
+  color: #ffffff;
+  background: #1570ef;
+  border: 1px solid #1570ef;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #175cd3;
+}
+
+.secondaryButton {
+  color: #344054;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.iconButton,
+.dangerIconButton {
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+}
+
+.dangerIconButton {
+  color: #b42318;
+}
+
+.dangerIconButton:hover:not(:disabled) {
+  background: #fef3f2;
+  border-color: #fda29b;
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.iconButton:disabled,
+.dangerIconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.emptySection,
+.centerState,
+.errorState {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 180px;
+  padding: 32px;
+  color: #667085;
+  text-align: center;
+}
+
+.emptySection p,
+.errorState p {
+  margin: 0;
+}
+
+.questionList {
+  display: grid;
+}
+
+.questionItem {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 180px;
+  gap: 14px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.questionItem:last-child {
+  border-bottom: 0;
+}
+
+.questionNumber {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #175cd3;
+  font-weight: 750;
+  background: #eff8ff;
+  border-radius: 50%;
+}
+
+.questionMain {
+  min-width: 0;
+}
+
+.questionText {
+  margin: 8px 0 0;
+  color: #101828;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.questionControls {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.scoreField input {
+  max-width: 100px;
+}
+
+.requiredField,
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475467;
+  font-size: 13px;
+}
+
+.questionActions {
+  display: flex;
+  gap: 7px;
+}
+
+.typeBadge,
+.pickerType,
+.pickerDifficulty,
+.pickerAdded {
+  display: inline-flex;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 650;
+  border-radius: 999px;
+}
+
+.typeBadge,
+.pickerType {
+  color: #175cd3;
+  background: #eff8ff;
+}
+
+.pickerDifficulty {
+  color: #854a0e;
+  background: #fef0c7;
+}
+
+.pickerAdded {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.optionPreview {
+  display: grid;
+  gap: 5px;
+  margin-top: 12px;
+}
+
+.optionPreviewItem,
+.answerPreview {
+  padding: 8px 10px;
+  color: #475467;
+  font-size: 13px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.optionPreviewImage {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 130px;
+  margin-top: 6px;
+  object-fit: contain;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.snapshotEditor {
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+  padding: 14px;
+  background: #f8fbff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+}
+
+.snapshotGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.optionEditRow {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 10px;
+}
+
+.optionEditRow > span,
+.statementEditRow label > span {
+  color: #175cd3;
+  font-weight: 750;
+}
+
+.optionEditRow input[type="text"],
+.statementEditRow textarea,
+.statementEditRow select {
+  width: 100%;
+  padding: 10px 12px;
+  color: #101828;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: 9px;
+  outline: none;
+}
+
+.optionEditRow input[type="text"]:focus,
+.statementEditRow textarea:focus,
+.statementEditRow select:focus {
+  border-color: #2e90fa;
+  box-shadow: 0 0 0 3px rgba(46, 144, 250, 0.13);
+}
+
+.statementEditRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px;
+  gap: 10px;
+  align-items: start;
+}
+
+.statementEditRow label {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.statementEditRow textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.editorActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.notice,
+.errorNotice {
+  padding: 11px 14px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+}
+
+.notice {
+  color: #027a48;
+  background: #ecfdf3;
+  border: 1px solid #abefc6;
+}
+
+.errorNotice {
+  color: #b42318;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+}
+
+.dialogBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(16, 24, 40, 0.55);
+}
+
+.questionPickerDialog {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  width: min(980px, 100%);
+  height: min(820px, calc(100vh - 40px));
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 64px rgba(16, 24, 40, 0.25);
+}
+
+.dialogHeader,
+.dialogFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+.dialogHeader {
+  border-bottom: 1px solid #eaecf0;
+}
+
+.dialogFooter {
+  justify-content: flex-end;
+  border-top: 1px solid #eaecf0;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 21px;
+}
+
+.dialogDescription {
+  margin: 5px 0 0;
+  color: #667085;
+}
+
+.pickerToolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 170px 130px auto;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #fcfcfd;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.pickerSelectionBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  color: #475467;
+  font-size: 13px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.pickerList {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+
+.pickerCard {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+}
+
+.pickerCard:hover:not(:disabled) {
+  border-color: #84caff;
+  background: #f5fbff;
+}
+
+.pickerCardSelected {
+  border-color: #2e90fa;
+  background: #eff8ff;
+}
+
+.pickerCardDisabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.pickerCheckbox {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  color: #ffffff;
+  background: #1570ef;
+  border: 1px solid #1570ef;
+  border-radius: 6px;
+}
+
+.pickerCardContent {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+}
+
+.pickerCardTop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pickerQuestionContent {
+  color: #101828;
+  line-height: 1.45;
+}
+
+@media (max-width: 1000px) {
+  .editorLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .informationPanel {
+    position: static;
+  }
+
+  .pickerToolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .editorPage {
+    padding: 12px;
+  }
+
+  .editorHeader,
+  .sectionHeader {
+    flex-direction: column;
+  }
+
+  .editorHeader {
+    position: static;
+  }
+
+  .editorHeaderActions {
+    width: 100%;
+  }
+
+  .editorHeaderActions button {
+    flex: 1;
+  }
+
+  .sectionSettings,
+  .pickerToolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .questionItem {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .questionControls {
+    grid-column: 2;
+  }
+
+  .questionPickerDialog {
+    height: calc(100vh - 20px);
+  }
+}
+
+.saveStatusGroup {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.saveStatusSuccess {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.autosaveLabel {
+  color: #667085;
+  font-size: 12px;
+}
+
+.validationPanel,
+.validationSuccess {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.validationPanel {
+  border: 1px solid #f0c9c9;
+  background: #fffafa;
+}
+
+.validationSuccess {
+  border: 1px solid #b9dfc4;
+  background: #f4fbf6;
+}
+
+.validationHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.validationHeader strong {
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.validationHeader span {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.validationSuccess p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #397449;
+}
+
+.validationGroup {
+  margin-top: 16px;
+}
+
+.validationGroup h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.validationGroup ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.validationGroup li {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.validationErrorItem {
+  color: #b42318;
+}
+
+.validationWarningItem {
+  color: #9a6700;
+}
+
+.validationPanel,
+.validationSuccess {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.validationPanel {
+  border: 1px solid #f1cccc;
+  background: #fffafa;
+}
+
+.validationSuccess {
+  border: 1px solid #b9ddc1;
+  background: #f3faf5;
+}
+
+.validationHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.validationHeader h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.validationHeader p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+.validationCount {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b42318;
+  white-space: nowrap;
+}
+
+.validationSuccessBadge {
+  flex-shrink: 0;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #dff3e4;
+  font-size: 11px;
+  font-weight: 700;
+  color: #28733b;
+  white-space: nowrap;
+}
+
+.validationGroup {
+  margin-top: 18px;
+}
+
+.validationGroup h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.validationList {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.validationErrorItem,
+.validationWarningItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.validationErrorItem {
+  color: #b42318;
+}
+
+.validationWarningItem {
+  color: #946200;
+}
+
+.validationIcon {
+  display: inline-flex;
+  flex: 0 0 18px;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.validationErrorItem
+  .validationIcon {
+  background: #fee4e2;
+}
+
+.validationWarningItem
+  .validationIcon {
+  background: #fff1c2;
+}

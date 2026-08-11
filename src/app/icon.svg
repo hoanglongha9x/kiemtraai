@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="shine" cx="24%" cy="18%" r="42%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".48"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="48%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="slash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".95"/>
+      <stop offset="100%" stop-color="#dbeafe" stop-opacity=".42"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#mark)"/>
+  <rect width="64" height="64" rx="18" fill="url(#shine)"/>
+  <rect x="9.5" y="9.5" width="45" height="45" rx="12" fill="none" stroke="#ffffff" stroke-opacity=".2"/>
+  <text x="20" y="45" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="35" font-weight="700" font-style="italic">K</text>
+  <rect x="41" y="14" width="5" height="38" rx="2.5" fill="url(#slash)" transform="rotate(32 43.5 33)"/>
+</svg>

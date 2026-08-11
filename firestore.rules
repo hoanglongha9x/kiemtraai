@@ -1,0 +1,180 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /*
+     * =========================================================
+     * AUTH HELPERS
+     * =========================================================
+     */
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function authEmail() {
+      return request.auth.token.email.lower();
+    }
+
+    function isActiveTeacher() {
+      return isSignedIn()
+        && request.auth.token.email is string
+        && exists(/databases/$(database)/documents/teachers/$(authEmail()))
+        && get(/databases/$(database)/documents/teachers/$(authEmail())).data.status == "active";
+    }
+
+    /*
+     * =========================================================
+     * QUESTION HELPERS
+     * Schema:
+     *
+     * questions/{questionId}
+     * {
+     *   ownerId: string,
+     *   createdAtMs: int,
+     *   updatedAtMs: int,
+     *   type: string,
+     *   content: string,
+     *   ...
+     * }
+     * =========================================================
+     */
+
+    function isQuestionOwner() {
+      return isActiveTeacher()
+        && resource.data.ownerId is string
+        && resource.data.ownerId == request.auth.uid;
+    }
+
+    function isCreatingOwnQuestion() {
+      return isActiveTeacher()
+        && request.resource.data.ownerId is string
+        && request.resource.data.ownerId == request.auth.uid;
+    }
+
+    function questionOwnerIsUnchanged() {
+      return isActiveTeacher()
+        && resource.data.ownerId is string
+        && request.resource.data.ownerId is string
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.ownerId == request.auth.uid;
+    }
+
+    function hasValidQuestionMetadata() {
+      return request.resource.data.ownerId is string
+        && request.resource.data.createdAtMs is int
+        && request.resource.data.updatedAtMs is int
+        && request.resource.data.type is string
+        && request.resource.data.content is string;
+    }
+
+    /*
+     * =========================================================
+     * TEST HELPERS
+     * Schema:
+     *
+     * tests/{testId}
+     * {
+     *   owner: {
+     *     uid: string,
+     *     email: string,
+     *     name?: string,
+     *     schoolId?: string
+     *   },
+     *   title: string,
+     *   status: string,
+     *   visibility: string,
+     *   durationMinutes: number,
+     *   createdAt: string,
+     *   updatedAt: string,
+     *   ...
+     * }
+     * =========================================================
+     */
+
+    function hasTestOwnerUid(data) {
+      return data.owner is map
+        && data.owner.uid is string
+        && data.owner.uid.size() > 0;
+    }
+
+    function isTestOwner() {
+      return isActiveTeacher()
+        && hasTestOwnerUid(resource.data)
+        && resource.data.owner.uid == request.auth.uid;
+    }
+
+    function isCreatingOwnTest() {
+      return isActiveTeacher()
+        && hasTestOwnerUid(request.resource.data)
+        && request.resource.data.owner.uid == request.auth.uid;
+    }
+
+    function testOwnerIsUnchanged() {
+      return isActiveTeacher()
+        && hasTestOwnerUid(resource.data)
+        && hasTestOwnerUid(request.resource.data)
+        && request.resource.data.owner.uid == resource.data.owner.uid
+        && request.resource.data.owner.uid == request.auth.uid;
+    }
+
+    function hasValidTestMetadata() {
+      return hasTestOwnerUid(request.resource.data)
+        && request.resource.data.title is string
+        && request.resource.data.status is string
+        && request.resource.data.visibility is string
+        && request.resource.data.durationMinutes is number
+        && request.resource.data.createdAt is string
+        && request.resource.data.updatedAt is string;
+    }
+
+    /*
+     * =========================================================
+     * QUESTION BANK
+     * =========================================================
+     */
+
+    match /questions/{questionId} {
+      allow create: if isCreatingOwnQuestion()
+        && hasValidQuestionMetadata();
+
+      allow get, list: if isQuestionOwner();
+
+      allow update: if isQuestionOwner()
+        && questionOwnerIsUnchanged()
+        && hasValidQuestionMetadata();
+
+      allow delete: if isQuestionOwner();
+    }
+
+    /*
+     * =========================================================
+     * TEST BUILDER
+     * =========================================================
+     */
+
+    match /tests/{testId} {
+      allow create: if isCreatingOwnTest()
+        && hasValidTestMetadata();
+
+      allow get, list: if isTestOwner();
+
+      allow update: if isTestOwner()
+        && testOwnerIsUnchanged()
+        && hasValidTestMetadata();
+
+      allow delete: if isTestOwner();
+    }
+
+    /*
+     * =========================================================
+     * DEFAULT DENY
+     * =========================================================
+     */
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

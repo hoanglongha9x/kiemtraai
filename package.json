@@ -1,0 +1,42 @@
+{
+  "name": "kiemtra-ai-v3",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "WATCHPACK_POLLING=true CHOKIDAR_USEPOLLING=true next dev --webpack -p 3003",
+    "build": "next build",
+    "start": "next start",
+    "lint": "tsc --noEmit -p tsconfig.typecheck.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "firebase": "firebase",
+    "firebase:login": "firebase login",
+    "firebase:rules": "firebase deploy --only firestore:rules",
+    "firebase:indexes": "firebase deploy --only firestore:indexes",
+    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.3",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "firebase": "^12.15.0",
+    "firebase-admin": "latest",
+    "katex": "^0.17.0",
+    "lucide-react": "^1.25.0",
+    "mammoth": "^1.12.0",
+    "next": "latest",
+    "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "^6.2.108",
+    "react": "latest",
+    "react-dom": "latest",
+    "sharp": "^0.35.3",
+    "typescript": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.8",
+    "firebase-tools": "^15.24.0",
+    "vitest": "^4.1.10"
+  }
+}

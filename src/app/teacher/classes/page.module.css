@@ -1,0 +1,514 @@
+.page {
+  display: grid;
+  gap: 22px;
+  padding-bottom: 40px;
+  --ui-text-secondary: #334155;
+  --ui-text-muted: #64748b;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--ui-border);
+  border-radius: 16px;
+  background: var(--ui-surface);
+  color: var(--ui-text-secondary);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.summaryGrid article {
+  display: grid;
+  gap: 8px;
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid var(--ui-border);
+  border-radius: 16px;
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.summaryGrid svg {
+  color: var(--ui-primary);
+}
+
+.summaryGrid strong {
+  color: var(--ui-text);
+  font-size: 28px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.summaryGrid span {
+  color: var(--ui-text-muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.4fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.panel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--ui-border);
+  border-radius: 17px;
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  color: var(--ui-text);
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.panelHeader p {
+  margin: 5px 0 0;
+  color: var(--ui-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.formStack,
+.editGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.editGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+}
+
+.formGridThree {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.7fr) minmax(180px, 1.2fr) minmax(120px, 0.7fr);
+  gap: 10px;
+}
+
+.formStack label,
+.editGrid label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.formStack label > span,
+.editGrid label > span {
+  color: var(--ui-text-secondary);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.formStack input,
+.formStack select,
+.formStack textarea,
+.editGrid input,
+.editGrid select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--ui-border);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--ui-text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.formStack textarea {
+  min-height: 128px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  line-height: 1.5;
+}
+
+.formStack input:focus,
+.formStack select:focus,
+.formStack textarea:focus,
+.editGrid input:focus,
+.editGrid select:focus {
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 4px var(--ui-primary-soft);
+}
+
+.selectedBox,
+.emptyBox {
+  display: grid;
+  gap: 4px;
+  padding: 13px;
+  border-radius: 13px;
+  background: #f8fafc;
+  color: var(--ui-text-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.selectedBox {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+}
+
+.selectedBox strong {
+  color: var(--ui-text);
+  font-size: 14px;
+}
+
+.classPickBox {
+  display: grid;
+  gap: 12px;
+}
+
+.quickClassGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.quickClassButton {
+  display: grid;
+  gap: 5px;
+  padding: 13px;
+  border: 1px solid var(--ui-border);
+  border-radius: 13px;
+  background: #fff;
+  color: var(--ui-text-secondary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--ui-transition),
+    box-shadow var(--ui-transition),
+    transform var(--ui-transition);
+}
+
+.quickClassButton:hover:not(:disabled) {
+  border-color: var(--ui-primary);
+  box-shadow: 0 10px 24px rgba(109, 40, 217, 0.12);
+  transform: translateY(-1px);
+}
+
+.quickClassButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.quickClassButton strong {
+  color: var(--ui-text);
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.quickClassButton span,
+.quickClassButton small {
+  color: var(--ui-text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.divider {
+  height: 1px;
+  background: var(--ui-border);
+}
+
+.message {
+  padding: 13px 16px;
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.info {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.error {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--ui-border);
+  border-radius: 14px;
+}
+
+.tableWrap table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.tableWrap th,
+.tableWrap td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--ui-border);
+  text-align: left;
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.tableWrap th {
+  background: #f8fafc;
+  color: var(--ui-text-secondary);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.tableWrap td {
+  color: var(--ui-text-secondary);
+}
+
+.tableWrap td strong {
+  display: block;
+  color: var(--ui-text);
+  font-weight: 900;
+}
+
+.tableWrap td small {
+  display: block;
+  margin-top: 4px;
+  color: var(--ui-text-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.status_active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status_locked {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status_deleted {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.actionRow button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 7px 9px;
+  border: 1px solid var(--ui-border);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--ui-text-secondary);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.actionRow button:hover {
+  border-color: var(--ui-primary);
+  color: var(--ui-primary);
+}
+
+.actionRow .dangerButton {
+  border-color: #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.studentActionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.studentActionCard {
+  display: grid;
+  gap: 8px;
+  min-height: 136px;
+  padding: 16px;
+  border: 1px solid var(--ui-border);
+  border-radius: 15px;
+  background: #fff;
+  color: var(--ui-text-secondary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--ui-transition),
+    box-shadow var(--ui-transition),
+    transform var(--ui-transition);
+}
+
+.studentActionCard:hover {
+  border-color: var(--ui-primary);
+  box-shadow: 0 12px 28px rgba(109, 40, 217, 0.12);
+  transform: translateY(-1px);
+}
+
+.studentActionCard svg {
+  color: var(--ui-primary);
+}
+
+.studentActionCard strong {
+  color: var(--ui-text);
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.studentActionCard span {
+  color: var(--ui-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.selectedActionCard {
+  border-color: var(--ui-primary);
+  background: var(--ui-primary-soft);
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.09);
+}
+
+.actionConfirmBox,
+.transferBox {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--ui-border);
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.actionConfirmBox p {
+  margin: 0;
+  color: var(--ui-text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.actionConfirmBox strong {
+  color: var(--ui-text);
+}
+
+.transferBox label {
+  display: grid;
+  gap: 7px;
+}
+
+.transferBox label > span {
+  color: var(--ui-text-secondary);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.transferBox select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--ui-border);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--ui-text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.transferBox select:focus {
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 4px var(--ui-primary-soft);
+}
+
+.spin {
+  animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .summaryGrid,
+  .workspaceGrid,
+  .editGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .summaryGrid,
+  .workspaceGrid,
+  .editGrid,
+  .studentActionGrid,
+  .formGridThree {
+    grid-template-columns: 1fr;
+  }
+
+  .panelHeader {
+    flex-direction: column;
+  }
+}
