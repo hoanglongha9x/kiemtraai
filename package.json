@@ -21,7 +21,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "firebase": "^12.15.0",
-    "firebase-admin": "latest",
+    "firebase-admin": "^13.5.0",
     "katex": "^0.17.0",
     "lucide-react": "^1.25.0",
     "mammoth": "^1.12.0",
