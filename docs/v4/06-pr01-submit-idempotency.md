@@ -128,3 +128,50 @@ SSH push thất bại do thiếu khóa; HTTPS Git push thất bại vì không c
 Kết luận trước khi có CI: **BLOCKED** cho merge — Emulator local chưa chạy và CI cần có kết quả thực; UI 409 chỉ được review tĩnh + kiểm tra Error propagation. Không bắt đầu nhiệm vụ 2–4.
 
 **AWAITING MERGE APPROVAL**
+
+
+## Kết quả CI thực tế và kết luận review
+
+[PR #1](https://github.com/hoanglongha9x/kiemtraai/pull/1), base main, draft/open, chưa merge. Source local `185fb96` + `9a0689a` được xuất bản qua connector thành remote `dc305c4eefd3b97deebe8105d66afcfc9f7c406c`; Git tree hai bên trùng `809ee02767c0e61d574b788a56269b8688c3239e`. Commit bổ sung báo cáo sau đây chỉ đổi Markdown, không thay runtime/test/config đã kiểm chứng.
+
+[CI run 40660016616](https://github.com/hoanglongha9x/kiemtraai/actions/runs/40660016616), job verify 122720411464: **SUCCESS**, hoàn thành 28/10/2026 lúc khoảng 15:55 (Asia/Ho_Chi_Minh). Workflow kiểm tra PR merge ref tạm do GitHub sinh, không phải merge vào main.
+
+| Kiểm tra trên CI | Kết quả thực tế |
+|---|---|
+| npm ci | PASS |
+| npm run build | PASS, Next.js 16.2.12, 60/60 static pages |
+| npm run typecheck | PASS |
+| npm run typecheck:emulator | PASS |
+| npm test | PASS, 11 file / **79 tests** |
+| npm run test:emulator | PASS, 1 file / **9 tests**, exit 0 |
+
+Firestore Emulator v1.22.0 thực sự khởi động với Java 21 trên Ubuntu và project demo; integration tests mất khoảng 9,41 giây. Retry fault injection test PASS; concurrent A/A, A/B, replay đã commit, missing result và identity conflicts đều PASS. Điều này thay thế trạng thái BLOCKED/pending CI ở phần lịch sử trước đó. Local Emulator vẫn không chạy do thiếu Java; không đồng nhất kết quả local với CI.
+
+Đã checkout sạch commit remote ở worktree detached và chạy lại unit tests local: **79/79 PASS**. Working tree chính có 80 test do một test DOCX chưa commit của chủ dự án; khác biệt này không nằm trong PR. So sánh danh sách file PR từ GitHub khớp 16 file đã rà soát; scan mẫu private keys/GitHub tokens/Firebase API key trên nội dung diff không phát hiện. Đây là kiểm tra theo pattern, không phải chứng nhận không có mọi loại secret.
+
+16 file chính xác trong PR:
+
+```text
+.github/workflows/pr01-submit-review.yml
+docs/v4/06-pr01-submit-idempotency.md
+firebase.emulator.json
+package.json
+src/app/api/student/submit/route.test.ts
+src/app/api/student/submit/route.ts
+src/features/exam/server/__tests__/transaction-store.ts
+src/features/exam/server/submit-response.ts
+src/features/exam/server/submit-transaction.test.ts
+src/features/exam/server/submit-transaction.ts
+src/features/exam/server/submit-types.ts
+src/lib/api/client.test.ts
+tests/integration/submit.emulator.test.ts
+tsconfig.emulator.json
+vitest.config.mts
+vitest.emulator.config.mts
+```
+
+Rủi ro còn lại giữ nguyên: chưa browser E2E; UI có thể retry 409 vĩnh viễn khi hết giờ; retry test dùng injected ABORTED chứ không buộc backend tự abort; chưa load test production; các writer khác chưa có cam kết bất biến toàn hệ thống. Log npm ci còn báo 48 dependency vulnerabilities (gồm 2 critical), chưa đánh giá khả năng khai thác trong ứng dụng và không nâng dependency trong PR01. Actions hiện chạy được nhưng có cảnh báo deprecated action runtime; không đổi toolchain ngoài nhu cầu test đã duyệt.
+
+**Kết luận: READY TO MERGE trong phạm vi sửa submit idempotency của PR01**, dựa trên CI thực tế thành công và các giới hạn đã ghi rõ. Không đồng nghĩa hệ thống V3 đã hoàn tất gói ổn định hoặc được phép phát hành production. PR giữ draft để chủ dự án review/duyệt, không tự merge hoặc triển khai. Nhiệm vụ 2–4 chưa bắt đầu.
+
+**AWAITING MERGE APPROVAL**
