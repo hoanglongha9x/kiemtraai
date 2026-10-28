@@ -136,4 +136,76 @@ describe("Firestore Emulator: submit through the real API handler and Admin SDK"
     expect(after.data()).toEqual(before.data());
     expect(after.updateTime?.isEqual(before.updateTime!)).toBe(true);
   });
+  it.each([
+    ["locked", 403], ["changed_code", 403], ["deleted", 404], ["changed_class", 200],
+  ] as const)("replay checks current identity after %s, preserving finalized documents", async (state, status) => {
+    const first = await post();
+    const resultRef = db.doc(`results/${attemptId}`);
+    const attemptRef = db.doc(`examAttempts/${attemptId}`);
+    const beforeResult = await resultRef.get();
+    const beforeAttempt = await attemptRef.get();
+    const studentRef = db.doc(`students/${studentId}`);
+    if (state === "deleted") await studentRef.delete();
+    else await studentRef.update(state === "locked" ? { status: "locked" }
+      : state === "changed_code" ? { studentCode: "NEW-CODE" } : { classId: "new-class" });
+    const reply = await post("B");
+    expect(reply.status).toBe(status);
+    if (state === "changed_class") {
+      expect(reply.body).toEqual({ ...first.body, alreadySubmitted: true, message: "Bài làm này đã được nộp trước đó." });
+    } else {
+      expect(reply.body).not.toHaveProperty("summary");
+      expect(reply.body).not.toHaveProperty("answerReview");
+    }
+    const afterResult = await resultRef.get();
+    const afterAttempt = await attemptRef.get();
+    expect(afterResult.data()).toEqual(beforeResult.data());
+    expect(afterAttempt.data()).toEqual(beforeAttempt.data());
+    expect(afterResult.updateTime?.isEqual(beforeResult.updateTime!)).toBe(true);
+    expect(afterAttempt.updateTime?.isEqual(beforeAttempt.updateTime!)).toBe(true);
+  });
+
+  it.each([
+    ["locked", 403], ["changed_code", 403], ["deleted", 404], ["changed_class", 200],
+  ] as const)("SDK retry rereads student after %s between callbacks", async (state, status) => {
+    const first = await post();
+    const resultRef = db.doc(`results/${attemptId}`);
+    const attemptRef = db.doc(`examAttempts/${attemptId}`);
+    const beforeResult = await resultRef.get();
+    const beforeAttempt = await attemptRef.get();
+    const original = db.runTransaction.bind(db);
+    const wrapped = Object.create(db) as Firestore;
+    let callbacks = 0;
+    wrapped.runTransaction = ((callback: Parameters<Firestore["runTransaction"]>[0]) => original(async (tx) => {
+      callbacks++;
+      // The prior callback's ABORTED rollback releases read locks before
+      // changing identity. This is explicit fault injection, not a claim
+      // that the emulator spontaneously produced a conflict.
+      if (callbacks === 2) {
+        const studentRef = db.doc(`students/${studentId}`);
+        if (state === "deleted") await studentRef.delete();
+        else await studentRef.update(state === "locked" ? { status: "locked" }
+          : state === "changed_code" ? { studentCode: "NEW-CODE" } : { classId: "new-class" });
+      }
+      const result = await callback(tx);
+      if (callbacks === 1) throw Object.assign(new Error("Injected ABORTED after identity read"), { code: 10 });
+      return result;
+    })) as Firestore["runTransaction"];
+    mocks.getAdminDb.mockReturnValue(wrapped);
+    const reply = await post("B");
+    expect(callbacks).toBeGreaterThanOrEqual(2);
+    expect(reply.status).toBe(status);
+    if (state === "changed_class") {
+      expect(reply.body).toEqual({ ...first.body, alreadySubmitted: true, message: "Bài làm này đã được nộp trước đó." });
+    } else {
+      expect(reply.body).not.toHaveProperty("summary");
+      expect(reply.body).not.toHaveProperty("answerReview");
+    }
+    const afterResult = await resultRef.get();
+    const afterAttempt = await attemptRef.get();
+    expect(afterResult.data()).toEqual(beforeResult.data());
+    expect(afterAttempt.data()).toEqual(beforeAttempt.data());
+    expect(afterResult.updateTime?.isEqual(beforeResult.updateTime!)).toBe(true);
+    expect(afterAttempt.updateTime?.isEqual(beforeAttempt.updateTime!)).toBe(true);
+  });
+
 });

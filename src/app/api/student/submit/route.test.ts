@@ -71,12 +71,11 @@ describe("POST /api/student/submit", () => {
     }
   });
 
-  it("replays when grading source and current student record are gone, without fabricating a result", async () => {
+  it("replays when grading source is gone, without fabricating a result", async () => {
     const store = fixture();
     await post();
     const saved = structuredClone(store.docs.get("results/attempt"));
     store.docs.delete("assignments/assignment");
-    store.docs.delete("students/student");
     vi.mocked(prepareSubmit).mockClear();
     const replay = await post("B");
     expect(replay.status).toBe(200);
@@ -155,6 +154,84 @@ describe("POST /api/student/submit", () => {
     const reply = await post("B");
     expect(reply.body.answerReview).toEqual(detail.map(({ explanation, ...item }) => item));
     expect(JSON.stringify(reply.body)).not.toContain("private explanation");
+  });
+
+  it.each([
+    ["locked", 403], ["changed_code", 403], ["deleted", 404],
+  ] as const)("rejects replay after %s without grading or writes", async (state, status) => {
+    const store = fixture();
+    await post();
+    const student = store.docs.get("students/student")!;
+    if (state === "deleted") store.docs.delete("students/student");
+    else store.docs.set("students/student", state === "locked"
+      ? { ...student, status: "locked" }
+      : { ...student, studentCode: "NEW-CODE" });
+    const before = structuredClone([...store.docs]);
+    const writes = store.writes;
+    vi.mocked(prepareSubmit).mockClear();
+    const errorLog = vi.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      const replay = await post("B");
+      expect(replay.status).toBe(status);
+      expect(replay.body.status).toBe("error");
+      expect(replay.body).not.toHaveProperty("summary");
+      expect(replay.body).not.toHaveProperty("answerReview");
+      expect(prepareSubmit).not.toHaveBeenCalled();
+      expect([...store.docs]).toEqual(before);
+      expect(store.writes).toBe(writes);
+    } finally { errorLog.mockRestore(); }
+  });
+
+  it("allows active students to replay historical results after changing class", async () => {
+    const store = fixture();
+    const first = await post();
+    store.docs.set("students/student", { ...store.docs.get("students/student"), classId: "new-class" });
+    const before = structuredClone([...store.docs]);
+    vi.mocked(prepareSubmit).mockClear();
+    const replay = await post("B");
+    expect(replay.status).toBe(200);
+    expect(replay.body).toEqual({ ...first.body, alreadySubmitted: true, message: "Bài làm này đã được nộp trước đó." });
+    expect(prepareSubmit).not.toHaveBeenCalled();
+    expect([...store.docs]).toEqual(before);
+  });
+
+  it.each(["locked", "changed_code", "deleted", "changed_class"] as const)("rereads student identity after a real optimistic conflict: %s", async (state) => {
+    const store = fixture();
+    await post();
+    const savedResult = structuredClone(store.docs.get("results/attempt"));
+    const savedAttempt = structuredClone(store.docs.get("examAttempts/attempt"));
+    const original = store.db.runTransaction.bind(store.db);
+    let callbacks = 0;
+    store.db.runTransaction = ((callback) => original(async (tx) => {
+      callbacks++;
+      const result = await callback(tx);
+      if (callbacks === 1) {
+        await original(async (writer) => {
+          const ref = store.db.collection("students").doc("student");
+          await writer.get(ref);
+          if (state === "deleted") writer.delete(ref);
+          else writer.update(ref, state === "locked" ? { status: "locked" }
+            : state === "changed_code" ? { studentCode: "NEW-CODE" } : { classId: "new-class" });
+        });
+      }
+      return result;
+    })) as typeof store.db.runTransaction;
+    vi.mocked(prepareSubmit).mockClear();
+    const errorLog = vi.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      const replay = await post("B");
+      expect(callbacks).toBeGreaterThanOrEqual(2);
+      expect(store.conflicts).toBeGreaterThan(0);
+      expect(replay.status).toBe(state === "changed_class" ? 200 : state === "deleted" ? 404 : 403);
+      if (state === "changed_class") expect(replay.body.summary.score).toBe(10);
+      else {
+        expect(replay.body).not.toHaveProperty("summary");
+        expect(replay.body).not.toHaveProperty("answerReview");
+      }
+      expect(prepareSubmit).not.toHaveBeenCalled();
+      expect(store.docs.get("results/attempt")).toEqual(savedResult);
+      expect(store.docs.get("examAttempts/attempt")).toEqual(savedAttempt);
+    } finally { errorLog.mockRestore(); }
   });
 
 });

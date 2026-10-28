@@ -13,7 +13,7 @@ export function createTransactionStore(seed: Record<string, Record<string, unkno
     runTransaction: async (callback: (tx: unknown) => Promise<unknown>) => {
       for (let retry = 0; retry < 100; retry++) {
         const reads = new Map<string, number>();
-        const pending: Array<{ path: string; data: Record<string, unknown>; merge: boolean }> = [];
+        const pending: Array<{ path: string; data: Record<string, unknown>; merge: boolean; remove?: boolean }> = [];
         const tx = {
           get: async ({ path }: { path: string }) => {
             if (pending.length) throw new Error("read after write");
@@ -25,6 +25,9 @@ export function createTransactionStore(seed: Record<string, Record<string, unkno
           set: ({ path }: { path: string }, data: Record<string, unknown>, options?: { merge?: boolean }) => {
             pending.push({ path, data: structuredClone(data), merge: Boolean(options?.merge) });
           },
+          delete: ({ path }: { path: string }) => {
+            pending.push({ path, data: {}, merge: false, remove: true });
+          },
           update: ({ path }: { path: string }, data: Record<string, unknown>) => {
             pending.push({ path, data: structuredClone(data), merge: true });
           },
@@ -35,7 +38,8 @@ export function createTransactionStore(seed: Record<string, Record<string, unkno
           continue;
         }
         for (const item of pending) {
-          docs.set(item.path, item.merge ? { ...docs.get(item.path), ...item.data } : item.data);
+          if (item.remove) docs.delete(item.path);
+          else docs.set(item.path, item.merge ? { ...docs.get(item.path), ...item.data } : item.data);
           versions.set(item.path, (versions.get(item.path) ?? 0) + 1);
           writes++;
         }

@@ -175,3 +175,36 @@ Rủi ro còn lại giữ nguyên: chưa browser E2E; UI có thể retry 409 vĩ
 **Kết luận: READY TO MERGE trong phạm vi sửa submit idempotency của PR01**, dựa trên CI thực tế thành công và các giới hạn đã ghi rõ. Không đồng nghĩa hệ thống V3 đã hoàn tất gói ổn định hoặc được phép phát hành production. PR giữ draft để chủ dự án review/duyệt, không tự merge hoặc triển khai. Nhiệm vụ 2–4 chưa bắt đầu.
 
 **AWAITING MERGE APPROVAL**
+
+
+## Sửa regression P1: xác thực quyền đọc replay hiện tại
+
+Phần này thay thế chính sách replay thiếu kiểm tra hồ sơ và kết luận READY cũ ở trên. Review cuối phát hiện tài khoản khóa/đổi mã/xóa vẫn nhận điểm và đáp án khi result đã có. Chỉ sửa regression này theo phê duyệt; không làm PR02, thay deadline/release policy hoặc sửa chuyển lớp.
+
+- Đọc `students/{studentId}` cùng các document trong transaction, trước mọi return replay. Hồ sơ thiếu trả 404.
+- Gọi `validateStudentIdentity(studentId, studentCode, student)` để kiểm active và mã hiện hành; khóa/mã sai trả 403.
+- Không gọi `validateStudentClassAccess` hoặc prepareSubmit trên replay. Học sinh active đã chuyển lớp vẫn đọc kết quả lịch sử.
+- Giữ nguyên nhánh replay read-only: không grade, set/update/delete result hoặc attempt; dùng snapshot student đã đọc trong lần submit đầu.
+- Mỗi callback retry đọc lại hồ sơ. Không cache identity ngoài transaction.
+
+Bằng chứng trước sửa: 6 test mục tiêu FAIL — locked/changed_code trả 200 thay 403, deleted trả 200 thay 404; ba ca xung đột không retry vì student không trong read set. Sau sửa toàn bộ **87/87 unit tests PASS** trên worktree sạch, gồm 8 ca mới về quyền/đổi lớp/retry. Test cũ về mất cả assignment và student đã được sửa: chỉ mất assignment được xác nhận đã nộp và che summary; mất student bắt buộc 404.
+
+Emulator bổ sung 8 ca (tổng 17): khóa, đổi mã, xóa hồ sơ, chuyển lớp; lặp lại cả bốn trạng thái khi identity đổi giữa hai callback SDK retry. Dùng injected ABORTED để kích hoạt rollback/retry thật của SDK; không gọi đó là conflict backend tự phát sinh. Assertions kiểm cả data và updateTime của result/attempt bất biến; unit tests spy prepareSubmit không được gọi và dùng conflict version thực của in-memory harness. Harness chỉ thêm delete support để kiểm xóa hồ sơ lúc retry.
+
+Local: build PASS (config demo, 60/60 trang), typecheck/typecheck:emulator/lint PASS; lint vẫn chỉ TypeScript. `npm run test:emulator` local được thử và dừng trước tests vì thiếu Java, không tính PASS. Bằng chứng chạy 17 integration tests phải lấy từ GitHub Actions của commit P1 mới, không dùng lại run 9 tests cũ. Kết quả CI và link run được ghi ở mô tả PR/checks sau khi publish.
+
+Chỉ 5 file của lần sửa này:
+
+```text
+src/features/exam/server/submit-transaction.ts
+src/app/api/student/submit/route.test.ts
+src/features/exam/server/__tests__/transaction-store.ts
+tests/integration/submit.emulator.test.ts
+docs/v4/06-pr01-submit-idempotency.md
+```
+
+Làm việc trong worktree riêng từ remote head `fcef28e`, không thay các sửa DOCX/.gitignore của chủ dự án. Commit mới trên GitHub phải có parent là head PR hiện tại, update ref với force=false và expected_sha, không rewrite/force push. Không merge/deploy/migration hay đổi dữ liệu production.
+
+Rollback chỉ revert commit P1 ở code; sẽ tái mở regression quyền đọc, cần chủ dự án quyết định trước khi dùng. Không rollback result/attempt trong database. Gate nghiệm thu: 403/404 đúng, chuyển lớp vẫn 200 với kết quả đã lưu, không grade/write khi replay, và toàn bộ unit + 17 Emulator tests PASS trên CI mới.
+
+**AWAITING MERGE APPROVAL nếu CI mới đạt; BLOCKED nếu CI thất bại hoặc chưa xác minh.**

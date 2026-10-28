@@ -10,6 +10,7 @@ import { buildSubmittedAttemptPayload } from "./attempt-payload";
 import { resolveAssignmentSettings } from "./assignment-settings";
 import { prepareSubmit } from "./prepare-submit";
 import { buildResultPayload } from "./result-payload";
+import { validateStudentIdentity } from "./student-access";
 import type { SubmitTransactionResult } from "./submit-types";
 
 export type SubmitTransactionInput = {
@@ -78,14 +79,22 @@ export async function runSubmitTransaction({
     // Honor an existing official pointer (including legacy IDs). Also read
     // the canonical location to detect conflicting results, never overwrite.
     const resultId = safeString(attempt.resultId);
-    const [canonicalResultDoc, linkedResultDoc, newAssignmentDoc, legacyAssignmentDoc] = await Promise.all([
+    const [canonicalResultDoc, linkedResultDoc, newAssignmentDoc, legacyAssignmentDoc, studentDoc] = await Promise.all([
       transaction.get(canonicalResultRef),
       resultId && resultId !== attemptId
         ? transaction.get(db.collection("results").doc(resultId))
         : Promise.resolve(null),
       transaction.get(db.collection("assignments").doc(assignmentId)),
       transaction.get(db.collection("testAssignments").doc(assignmentId)),
+      transaction.get(db.collection("students").doc(studentId)),
     ]);
+    if (!studentDoc.exists) {
+      throw new SubmitTransactionError("Không tìm thấy học sinh.", 404);
+    }
+    const student = asRecord(studentDoc.data());
+    // Revalidate the current account on every callback, including replay.
+    // Historical result access does not depend on the current class.
+    validateStudentIdentity(studentId, studentCode, student);
     const assignmentDoc = newAssignmentDoc.exists ? newAssignmentDoc : legacyAssignmentDoc;
     const assignment = assignmentDoc.exists ? asRecord(assignmentDoc.data()) : null;
     const assignmentSettings = assignment ? resolveAssignmentSettings({ assignment }) : null;
@@ -108,16 +117,11 @@ export async function runSubmitTransaction({
     if (!assignment) {
       throw new SubmitTransactionError("Không tìm thấy bài kiểm tra được giao.", 404);
     }
-    const studentDoc = await transaction.get(db.collection("students").doc(studentId));
-    if (!studentDoc.exists) {
-      throw new SubmitTransactionError("Không tìm thấy học sinh.", 404);
-    }
-
     // Pure preparation only after the transaction establishes that there is
     // no official result. Retries reread autosaved answers and identity.
     const prepared = prepareSubmit({
       studentId, studentCode, attempt, assignment,
-      student: asRecord(studentDoc.data()),
+      student,
       requestAnswers, requestAntiCheat, submittedAt,
     });
     const submittedAtIso = submittedAt.toISOString();
