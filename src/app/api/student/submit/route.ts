@@ -14,8 +14,6 @@ import {
 
 import {
   buildSubmitSuccessResponse,
-  loadSubmitContext,
-  prepareSubmit,
   resolveApiError,
   runSubmitTransaction,
 } from "@/features/exam/server";
@@ -176,111 +174,19 @@ export async function POST(
     const db =
       getAdminDb();
 
-    const submitContext =
-      await loadSubmitContext({
-        db,
-
-        attemptId,
-        studentId,
-        studentCode,
-      });
-
-    const {
-      assignmentId,
-      attempt,
-      assignment,
-      student,
-    } = submitContext;
-
-    const submittedAt =
-      new Date();
-
-    const submittedAtIso =
-      submittedAt
-        .toISOString();
-
-    /*
-     * Chuẩn bị toàn bộ dữ liệu:
-     *
-     * - xác thực học sinh
-     * - đọc câu hỏi từ assignment.testSnapshot
-     * - chuẩn hóa đáp án
-     * - hợp nhất autosave và đáp án submit
-     * - chấm điểm
-     * - xử lý anti-cheat
-     * - tính thời gian làm bài
-     */
-    const preparedSubmit =
-      prepareSubmit({
-        studentId,
-        studentCode,
-
-        attempt,
-        assignment,
-        student,
-
-        requestAnswers:
-          answers,
-
-        requestAntiCheat:
-          antiCheat,
-
-        submittedAt,
-      });
-
-    const {
-      studentAccess,
-      answers:
-        normalizedAnswers,
-      gradingSummary,
-      gradingScore,
-      antiCheat:
-        resolvedAntiCheat,
-      assignmentSettings,
-      timeSpentSeconds,
-    } = preparedSubmit;
-
-    /*
-     * Transaction đảm bảo:
-     *
-     * - một attempt chỉ có một result
-     * - submit lặp lại không tạo result trùng
-     * - result và attempt được cập nhật đồng thời
-     */
-    const transactionResult =
-      await runSubmitTransaction({
-        db,
-
-        attemptId,
-        assignmentId,
-
-        assignment,
-        studentAccess,
-
-        answers:
-          normalizedAnswers,
-
-        gradingSummary,
-        gradingScore,
-
-        antiCheat:
-          resolvedAntiCheat,
-
-        durationMinutes:
-          assignmentSettings
-            .durationMinutes,
-
-        timeSpentSeconds,
-
-        submittedAtIso,
-        autoSubmit,
-      });
-
-    const response =
-      buildSubmitSuccessResponse({
-        transactionResult,
-        preparedSubmit,
-      });
+    // The transaction reads the official result before any grading, and
+    // returns the committed document for both first submissions and retries.
+    const transactionResult = await runSubmitTransaction({
+      db,
+      attemptId,
+      studentId,
+      studentCode,
+      requestAnswers: answers,
+      requestAntiCheat: antiCheat,
+      submittedAt: new Date(),
+      autoSubmit,
+    });
+    const response = buildSubmitSuccessResponse({ transactionResult });
 
     return NextResponse.json(
       response,

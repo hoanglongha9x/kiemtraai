@@ -54,6 +54,8 @@ export type PreparedSubmit = {
 export type SubmitTransactionResult = {
   resultId: string;
   alreadySubmitted: boolean;
+  result: Record<string, unknown>;
+  assignmentSettings: AssignmentSettings | null;
 };
 
 export type SubmitSummaryResponse = {
