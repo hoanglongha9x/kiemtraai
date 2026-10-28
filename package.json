@@ -13,7 +13,9 @@
     "firebase:login": "firebase login",
     "firebase:rules": "firebase deploy --only firestore:rules",
     "firebase:indexes": "firebase deploy --only firestore:indexes",
-    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json"
+    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
+    "test:emulator": "firebase emulators:exec --only firestore --project demo-kiemtraai-submit --config firebase.emulator.json \"vitest run --config vitest.emulator.config.mts\"",
+    "typecheck:emulator": "tsc --noEmit -p tsconfig.emulator.json"
   },
   "dependencies": {
     "@napi-rs/canvas": "^1.0.3",
